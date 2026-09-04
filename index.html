@@ -4,450 +4,98 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>UKVI Student Visa Statistics</title>
+  <title>UKVI Sponsored Study Visa Statistics</title>
   <style>
-    :root{--bg:#f4f7fb;--panel:#fff;--border:#dfe6ef;--text:#172033;--muted:#657287;--blue:#2563eb;--blue-soft:#eaf2ff;--green:#17803d;--green-soft:#eaf7ef;--red:#c8333a;--red-soft:#fcebed;--amber:#b26b00;--shadow:0 8px 28px rgba(15,23,42,.05)}
-    *{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
-    button,select,input{font:inherit}.shell{max-width:1520px;margin:0 auto;padding:24px}.hero{display:flex;justify-content:space-between;gap:24px;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px 24px;box-shadow:var(--shadow)}
-    h1,h2,h3,p{margin-top:0}.hero h1{font-size:28px;margin-bottom:6px}.hero p,.section-head p,.card-head p,.muted{color:var(--muted)}
-    .scope-switch{display:flex;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff}.scope-btn{border:0;background:#fff;color:var(--text);padding:11px 16px;font-weight:700;cursor:pointer}.scope-btn.active{background:var(--blue);color:#fff}
-    .filters{margin-top:16px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;display:grid;grid-template-columns:repeat(4,minmax(150px,1fr)) auto auto;gap:12px;align-items:end;box-shadow:var(--shadow)}
-    label span{display:block;font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}.control{width:100%;height:42px;border:1px solid var(--border);border-radius:10px;background:#fff;padding:0 12px;color:var(--text)}
-    .btn{height:42px;border-radius:10px;border:1px solid var(--blue);background:var(--blue);color:#fff;padding:0 18px;font-weight:800;cursor:pointer}.btn.secondary{background:#fff;color:var(--text);border-color:var(--border)}
-    .filter-state{grid-column:1/-1;color:var(--muted);font-size:12px}.tabs{display:flex;gap:8px;margin:18px 0 0;overflow:auto}.tab{border:1px solid var(--border);background:#fff;border-radius:10px;padding:9px 14px;font-weight:750;color:var(--muted);cursor:pointer;white-space:nowrap}.tab.active{color:var(--blue);border-color:#b9d0ff;background:var(--blue-soft)}
-    .notice{margin-top:16px;border-radius:12px;padding:12px 14px;border:1px solid #f2c4c7;background:var(--red-soft);color:#8b1d24;font-weight:650}.notice[hidden]{display:none}
-    .view{display:none}.view.active{display:block}.section-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-end;margin:22px 0 12px}.section-head h2{font-size:22px;margin-bottom:4px}.section-head p{margin-bottom:0}
+    :root{--bg:#f4f7fb;--panel:#fff;--border:#dfe6ef;--text:#172033;--muted:#657287;--blue:#2563eb;--blue-soft:#eaf2ff;--green:#17803d;--green-soft:#eaf7ef;--red:#c8333a;--red-soft:#fcebed;--amber:#a65f00;--amber-soft:#fff4df;--shadow:0 8px 28px rgba(15,23,42,.05)}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}button,select,input{font:inherit}
+    .shell{max-width:1520px;margin:0 auto;padding:24px}.hero{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px 24px;box-shadow:var(--shadow)}h1,h2,h3,p{margin-top:0}.hero h1{font-size:28px;margin-bottom:6px}.hero p,.section-head p,.card-head p,.muted{color:var(--muted);margin-bottom:0}
+    .filters{margin-top:16px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;display:grid;grid-template-columns:repeat(4,minmax(150px,1fr)) auto auto;gap:12px;align-items:end;box-shadow:var(--shadow)}label span{display:block;font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}.control{width:100%;height:42px;border:1px solid var(--border);border-radius:10px;background:#fff;padding:0 12px;color:var(--text)}
+    .btn{height:42px;border-radius:10px;border:1px solid var(--blue);background:var(--blue);color:#fff;padding:0 18px;font-weight:800;cursor:pointer}.btn.secondary{background:#fff;color:var(--text);border-color:var(--border)}.filter-state{grid-column:1/-1;color:var(--muted);font-size:12px}.tabs,.compare-tabs{display:flex;gap:8px;margin:18px 0 0;overflow:auto}.tab,.compare-tab{border:1px solid var(--border);background:#fff;border-radius:10px;padding:9px 14px;font-weight:750;color:var(--muted);cursor:pointer;white-space:nowrap}.tab.active,.compare-tab.active{color:var(--blue);border-color:#b9d0ff;background:var(--blue-soft)}
+    .notice{margin-top:16px;border-radius:12px;padding:12px 14px;border:1px solid #f2c4c7;background:var(--red-soft);color:#8b1d24;font-weight:650}.notice[hidden]{display:none}.view,.compare-panel{display:none}.view.active,.compare-panel.active{display:block}.section-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-end;margin:22px 0 12px}.section-head h2{font-size:22px;margin-bottom:4px}
     .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.kpi{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}.kpi .label{font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.035em}.kpi .value{font-size:26px;font-weight:850;margin:7px 0 2px}.kpi .sub{font-size:12px;color:var(--muted)}.kpi.good{border-top:3px solid var(--green)}.kpi.risk{border-top:3px solid var(--red)}.kpi.info{border-top:3px solid var(--blue)}
-    .grid{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-top:14px}.grid.equal{grid-template-columns:1fr 1fr}.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow);min-width:0}.card-head{margin-bottom:12px}.card-head h3{font-size:16px;margin-bottom:4px}.card-head p{font-size:12px;margin-bottom:0}
-    .chart{min-height:300px;display:flex;align-items:center;justify-content:center}.chart svg{width:100%;height:auto;display:block}.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--muted)}.legend span{display:inline-flex;align-items:center;gap:6px}.dot{width:9px;height:9px;border-radius:99px;display:inline-block}
-    .table-tools{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:10px}.search{max-width:320px}.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:12px}table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{text-align:right;padding:11px 12px;border-bottom:1px solid #edf1f5;white-space:nowrap}th{font-size:11px;text-transform:uppercase;letter-spacing:.035em;color:var(--muted);background:#f8fafc;position:sticky;top:0;z-index:1}th:first-child,td:first-child{text-align:left}.risk-text{color:var(--red);font-weight:750}.good-text{color:var(--green);font-weight:750}
-    .compare-controls{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px}.compare-bars{margin-top:16px;display:grid;gap:14px}.compare-row{display:grid;grid-template-columns:180px 1fr 110px;gap:12px;align-items:center}.bar-track{height:14px;background:#edf2f7;border-radius:99px;overflow:hidden}.bar-fill{height:100%;background:var(--blue);border-radius:99px}.bar-fill.green{background:var(--green)}.bar-fill.red{background:var(--red)}
+    .grid{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-top:14px}.grid.equal{grid-template-columns:1fr 1fr}.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow);min-width:0}.card-head{margin-bottom:12px}.card-head h3{font-size:16px;margin-bottom:4px}.card-head p{font-size:12px}.chart{min-height:300px;display:flex;align-items:center;justify-content:center}.chart svg{width:100%;height:auto;display:block}.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--muted)}.legend span{display:inline-flex;align-items:center;gap:6px}.dot{width:9px;height:9px;border-radius:99px;display:inline-block}
+    .table-tools{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:10px}.search{max-width:320px}.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:12px}table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{text-align:right;padding:11px 12px;border-bottom:1px solid #edf1f5;white-space:nowrap}th{font-size:11px;text-transform:uppercase;letter-spacing:.035em;color:var(--muted);background:#f8fafc;position:sticky;top:0;z-index:1}th:first-child,td:first-child{text-align:left}.risk-text{color:var(--red);font-weight:750}.good-text{color:var(--green);font-weight:750}.warn-text{color:var(--amber);font-weight:750}
+    .compare-shell{margin-top:14px}.compare-tabs{margin:0 0 14px}.compare-controls{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr)) auto;gap:10px;align-items:end}.country-pickers{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:12px}.period-list{display:grid;gap:10px;margin-top:12px}.period-row{display:grid;grid-template-columns:44px 1fr 1fr;gap:10px;align-items:end}.period-number{height:42px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#f5f8fc;color:var(--muted);font-weight:850}.compare-results{margin-top:18px;display:grid;gap:12px}.compare-result{display:grid;grid-template-columns:minmax(180px,260px) 1fr minmax(180px,250px);gap:14px;align-items:center;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fff}.compare-name{font-weight:800}.compare-meta{font-size:12px;color:var(--muted);margin-top:3px}.bar-track{height:14px;background:#edf2f7;border-radius:99px;overflow:hidden}.bar-fill{height:100%;background:var(--blue);border-radius:99px}.bar-fill.green{background:var(--green)}.bar-fill.red{background:var(--red)}.compare-value{text-align:right;font-weight:850}.delta{display:block;font-size:12px;margin-top:3px}.sample-warning{display:inline-block;margin-left:7px;padding:2px 6px;border-radius:99px;background:var(--amber-soft);color:var(--amber);font-size:10px;font-weight:800}.compare-note{font-size:12px;color:var(--muted);margin-top:12px}.mode-intro{font-size:13px;color:var(--muted);margin-bottom:14px}
     .guide{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.guide .card p{line-height:1.6;margin-bottom:0}.source-link{color:var(--blue);text-decoration:none}.status-line{font-size:12px;color:var(--muted)}
-    @media(max-width:1100px){.filters{grid-template-columns:repeat(2,1fr)}.kpis{grid-template-columns:repeat(3,1fr)}.grid,.grid.equal{grid-template-columns:1fr}.compare-controls{grid-template-columns:1fr 1fr}.compare-row{grid-template-columns:140px 1fr 90px}}
-    @media(max-width:700px){.shell{padding:12px}.hero{align-items:flex-start;flex-direction:column}.hero h1{font-size:24px}.filters{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.guide{grid-template-columns:1fr}.compare-controls{grid-template-columns:1fr}.compare-row{grid-template-columns:110px 1fr 72px}.scope-switch{width:100%}.scope-btn{flex:1;padding:10px 8px;font-size:12px}}
+    @media(max-width:1100px){.filters{grid-template-columns:repeat(2,1fr)}.kpis{grid-template-columns:repeat(3,1fr)}.grid,.grid.equal{grid-template-columns:1fr}.country-pickers{grid-template-columns:repeat(2,1fr)}.compare-controls{grid-template-columns:repeat(2,1fr)}.compare-result{grid-template-columns:160px 1fr 180px}}
+    @media(max-width:700px){.shell{padding:12px}.hero h1{font-size:24px}.filters{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.guide{grid-template-columns:1fr}.country-pickers,.compare-controls{grid-template-columns:1fr}.period-row{grid-template-columns:36px 1fr}.period-row label:last-child{grid-column:2}.compare-result{grid-template-columns:1fr}.compare-value{text-align:left}.table-tools{align-items:stretch;flex-direction:column}.search{max-width:none}}
   </style>
 </head>
 <body>
-  <main class="shell">
-    <section class="hero">
-      <div>
-        <h1>UKVI Student Visa Statistics</h1>
-        <p id="subtitle">Sponsored study applications and outcomes by nationality.</p>
-      </div>
-      <div class="scope-switch" aria-label="Dataset scope">
-        <button class="scope-btn active" data-scope="sponsored">Sponsored Study Only</button>
-        <button class="scope-btn" data-scope="overall">Overall Study Visa</button>
-      </div>
-    </section>
-
-    <section class="filters">
-      <label><span>Year from</span><select class="control" id="yearFrom"></select></label>
-      <label><span>Year to</span><select class="control" id="yearTo"></select></label>
-      <label><span>Quarter</span><select class="control" id="quarter"><option value="All">All quarters</option><option>Q1</option><option>Q2</option><option>Q3</option><option>Q4</option></select></label>
-      <label><span>Country / nationality</span><select class="control" id="country"><option value="All">All countries</option></select></label>
-      <button class="btn" id="applyBtn">Apply</button>
-      <button class="btn secondary" id="resetBtn">Reset</button>
-      <div class="filter-state" id="filterState">Preparing dashboard...</div>
-    </section>
-
-    <div class="tabs" role="tablist">
-      <button class="tab active" data-view="overview">Overview</button>
-      <button class="tab" data-view="countries">Countries</button>
-      <button class="tab" data-view="compare">Compare</button>
-      <button class="tab" data-view="guide">Data Guide</button>
-    </div>
-
-    <div class="notice" id="notice" hidden></div>
-
-    <section class="view active" id="overview">
-      <div class="section-head"><div><h2>Overview</h2><p id="summaryLine">Loading data...</p></div><div class="status-line" id="updatedLine"></div></div>
-      <div class="kpis" id="kpis"></div>
-      <div class="grid">
-        <article class="card"><div class="card-head"><h3>Applications and decisions trend</h3><p>Annual volume for the selected filters.</p></div><div class="chart" id="volumeChart"></div><div class="legend"><span><i class="dot" style="background:#2563eb"></i>Applications</span><span><i class="dot" style="background:#657287"></i>Decisions</span></div></article>
-        <article class="card"><div class="card-head"><h3>Refusal rate trend</h3><p>Annual refused share of issued plus refused decisions.</p></div><div class="chart" id="refusalChart"></div></article>
-      </div>
-      <div class="grid equal">
-        <article class="card"><div class="card-head"><h3>Highest application volume</h3><p>Top nationalities in the selected period.</p></div><div class="table-wrap"><table><thead><tr><th>Nationality</th><th>Applications</th><th>Decisions</th></tr></thead><tbody id="topAppsBody"></tbody></table></div></article>
-        <article class="card"><div class="card-head"><h3>Highest refusal rate</h3><p>Countries with at least 30 decisions in the selected period.</p></div><div class="table-wrap"><table><thead><tr><th>Nationality</th><th>Refusal rate</th><th>Refused</th></tr></thead><tbody id="topRiskBody"></tbody></table></div></article>
-      </div>
-    </section>
-
-    <section class="view" id="countries">
-      <div class="section-head"><div><h2>Countries</h2><p>Nationality-level applications, outcomes and rates.</p></div><button class="btn secondary" id="exportBtn">Export CSV</button></div>
-      <article class="card">
-        <div class="table-tools"><input class="control search" id="countrySearch" type="search" placeholder="Search nationality..."><span class="status-line" id="countryCount"></span></div>
-        <div class="table-wrap"><table><thead><tr><th>Nationality</th><th>Applications</th><th>Decisions</th><th>Issued</th><th>Refused</th><th>Grant rate</th><th>Refusal rate</th></tr></thead><tbody id="countryBody"></tbody></table></div>
-      </article>
-    </section>
-
-    <section class="view" id="compare">
-      <div class="section-head"><div><h2>Compare</h2><p>Compare two nationalities using the current period filters.</p></div></div>
-      <article class="card">
-        <div class="compare-controls">
-          <label><span>Country 1</span><select class="control" id="compareA"></select></label>
-          <label><span>Country 2</span><select class="control" id="compareB"></select></label>
-          <label><span>Metric</span><select class="control" id="compareMetric"><option value="applications">Applications</option><option value="decisions">Decisions</option><option value="issued">Issued / granted</option><option value="refused">Refused</option><option value="grantRate">Grant rate</option><option value="refusalRate" selected>Refusal rate</option></select></label>
-          <button class="btn" id="compareBtn">Compare</button>
-        </div>
-        <div class="compare-bars" id="compareBars"></div>
-      </article>
-    </section>
-
-    <section class="view" id="guide">
-      <div class="section-head"><div><h2>Data Guide</h2><p>Definitions, source and scope.</p></div></div>
-      <div class="guide">
-        <article class="card"><h3>Data source</h3><p>UK Home Office immigration system statistics. <a class="source-link" href="https://www.gov.uk/government/statistical-data-sets/immigration-system-statistics-data-table" target="_blank" rel="noopener">Open official data tables</a>.</p></article>
-        <article class="card"><h3>Sponsored Study Only</h3><p>Main applicant sponsored study applications and outcomes. This is the default dashboard scope.</p></article>
-        <article class="card"><h3>Overall Study Visa</h3><p>All study visa subtypes represented in the source workbook, including broader applicant categories.</p></article>
-        <article class="card"><h3>Rates</h3><p><strong>Grant rate</strong> = Issued ÷ (Issued + Refused). <strong>Refusal rate</strong> = Refused ÷ (Issued + Refused).</p></article>
-        <article class="card"><h3>Interpretation</h3><p>Applications and outcomes are period-level indicators. They are not matched applicant-level records.</p></article>
-        <article class="card"><h3>Current source file</h3><p id="sourceFileLine">Loading source details...</p></article>
-      </div>
-    </section>
-  </main>
-
+<main class="shell">
+  <section class="hero">
+    <h1>UKVI Sponsored Study Visa Statistics</h1>
+    <p>Sponsored study visa applications, decisions, grants and refusals for main applicants by nationality.</p>
+  </section>
+  <section class="filters">
+    <label><span>Year from</span><select class="control" id="yearFrom"></select></label>
+    <label><span>Year to</span><select class="control" id="yearTo"></select></label>
+    <label><span>Quarter</span><select class="control" id="quarter"></select></label>
+    <label><span>Country / nationality</span><select class="control" id="country"><option value="All">All countries</option></select></label>
+    <button class="btn" id="applyBtn">Apply</button><button class="btn secondary" id="resetBtn">Reset</button>
+    <div class="filter-state" id="filterState">Preparing dashboard...</div>
+  </section>
+  <div class="tabs" role="tablist"><button class="tab active" data-view="overview">Overview</button><button class="tab" data-view="countries">Countries</button><button class="tab" data-view="compare">Compare</button><button class="tab" data-view="guide">Data Guide</button></div>
+  <div class="notice" id="notice" hidden></div>
+  <section class="view active" id="overview">
+    <div class="section-head"><div><h2>Overview</h2><p id="summaryLine">Loading data...</p></div><div class="status-line" id="updatedLine"></div></div><div class="kpis" id="kpis"></div>
+    <div class="grid"><article class="card"><div class="card-head"><h3>Applications and decisions trend</h3><p>Annual volume for the selected filters.</p></div><div class="chart" id="volumeChart"></div><div class="legend"><span><i class="dot" style="background:#2563eb"></i>Applications</span><span><i class="dot" style="background:#657287"></i>Decisions</span></div></article><article class="card"><div class="card-head"><h3>Refusal rate trend</h3><p>Annual refused share of issued plus refused decisions.</p></div><div class="chart" id="refusalChart"></div></article></div>
+    <div class="grid equal"><article class="card"><div class="card-head"><h3>Highest application volume</h3><p>Top nationalities in the selected period.</p></div><div class="table-wrap"><table><thead><tr><th>Nationality</th><th>Applications</th><th>Decisions</th></tr></thead><tbody id="topAppsBody"></tbody></table></div></article><article class="card"><div class="card-head"><h3>Highest refusal rate</h3><p>Countries with at least 30 decisions in the selected period.</p></div><div class="table-wrap"><table><thead><tr><th>Nationality</th><th>Refusal rate</th><th>Refused</th></tr></thead><tbody id="topRiskBody"></tbody></table></div></article></div>
+  </section>
+  <section class="view" id="countries"><div class="section-head"><div><h2>Countries</h2><p>Nationality-level applications, outcomes and rates.</p></div><button class="btn secondary" id="exportBtn">Export CSV</button></div><article class="card"><div class="table-tools"><input class="control search" id="countrySearch" type="search" placeholder="Search nationality..."><span class="status-line" id="countryCount"></span></div><div class="table-wrap"><table><thead><tr><th>Nationality</th><th>Applications</th><th>Decisions</th><th>Issued</th><th>Refused</th><th>Grant rate</th><th>Refusal rate</th></tr></thead><tbody id="countryBody"></tbody></table></div></article></section>
+  <section class="view" id="compare">
+    <div class="section-head"><div><h2>Compare</h2><p>Compare countries, periods, or the same quarter across years.</p></div></div>
+    <div class="compare-tabs"><button class="compare-tab active" data-mode="countries">Countries</button><button class="compare-tab" data-mode="periods">Periods</button><button class="compare-tab" data-mode="yoy">Same Quarter YoY</button></div>
+    <article class="card compare-shell">
+      <section class="compare-panel active" id="compareCountriesPanel"><p class="mode-intro">Compare up to five nationalities for one year and quarter. Use All quarters for an annual comparison.</p><div class="compare-controls"><label><span>Year</span><select class="control" id="countriesYear"></select></label><label><span>Quarter</span><select class="control" id="countriesQuarter"></select></label><label><span>Metric</span><select class="control metric-select" id="countriesMetric"></select></label><div></div><button class="btn" id="countriesCompareBtn">Compare</button></div><div class="country-pickers" id="countryPickers"></div><div class="compare-results" id="countriesResults"></div><div class="compare-note" id="countriesNote"></div></section>
+      <section class="compare-panel" id="comparePeriodsPanel"><p class="mode-intro">Compare the same nationality across up to five year and quarter combinations.</p><div class="compare-controls"><label><span>Country</span><select class="control" id="periodCountry"></select></label><label><span>Metric</span><select class="control metric-select" id="periodMetric"></select></label><div></div><div></div><button class="btn" id="periodCompareBtn">Compare</button></div><div class="period-list" id="periodRows"></div><div class="compare-results" id="periodResults"></div><div class="compare-note" id="periodNote"></div></section>
+      <section class="compare-panel" id="compareYoyPanel"><p class="mode-intro">Choose a nationality and quarter to compare that same quarter across every available year.</p><div class="compare-controls"><label><span>Country</span><select class="control" id="yoyCountry"></select></label><label><span>Quarter</span><select class="control" id="yoyQuarter"></select></label><label><span>Metric</span><select class="control metric-select" id="yoyMetric"></select></label><div></div><button class="btn" id="yoyCompareBtn">Compare</button></div><div class="compare-results" id="yoyResults"></div><div class="compare-note" id="yoyNote"></div></section>
+    </article>
+  </section>
+  <section class="view" id="guide"><div class="section-head"><div><h2>Data Guide</h2><p>Definitions, source and scope.</p></div></div><div class="guide"><article class="card"><h3>Data source</h3><p>UK Home Office immigration system statistics. <a class="source-link" href="https://www.gov.uk/government/statistical-data-sets/immigration-system-statistics-data-table" target="_blank" rel="noopener">Open official data tables</a>.</p></article><article class="card"><h3>Sponsored Study Visa</h3><p>This dashboard uses main applicant sponsored study applications and outcomes only.</p></article><article class="card"><h3>Rates</h3><p><strong>Grant rate</strong> = Issued ÷ (Issued + Refused). <strong>Refusal rate</strong> = Refused ÷ (Issued + Refused).</p></article><article class="card"><h3>Comparison caution</h3><p>Rate comparisons show the decision base. Results with fewer than 30 decisions are flagged as a small sample.</p></article><article class="card"><h3>Interpretation</h3><p>Applications and outcomes are period-level indicators. They are not matched applicant-level records.</p></article><article class="card"><h3>Current source file</h3><p id="sourceFileLine">Loading source details...</p></article></div></section>
+</main>
 <script>
 (() => {
-  'use strict';
-
-  const SUPABASE_URL = 'https://fmharbqedtutphukhskz.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_odsJb1OMHArKy6CMLxYBZw_2UNWkSda';
-  const PAGE_SIZE = 1000;
-  const SCOPE_TEXT = {
-    sponsored: 'Sponsored study applications and outcomes by nationality.',
-    overall: 'Overall study visa applications and outcomes by nationality.'
-  };
-  const cache = new Map();
-  let scope = 'sponsored';
-  let rows = [];
-  let filtered = [];
-  let countryRows = [];
-  let metadata = null;
-
-  const $ = id => document.getElementById(id);
-  const fmt = value => Math.round(Number(value) || 0).toLocaleString('en-GB');
-  const pct = value => ((Number(value) || 0) * 100).toFixed(1) + '%';
-  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
-  const quarterNumber = quarter => Number(String(quarter || '').replace('Q','')) || 0;
-
-  document.querySelectorAll('.scope-btn').forEach(btn => btn.addEventListener('click', () => changeScope(btn.dataset.scope)));
-  document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => showView(btn.dataset.view)));
-  $('applyBtn').addEventListener('click', applyFilters);
-  $('resetBtn').addEventListener('click', resetFilters);
-  $('countrySearch').addEventListener('input', renderCountryTable);
-  $('compareBtn').addEventListener('click', renderCompare);
-  $('exportBtn').addEventListener('click', exportCsv);
-
-  init();
-
-  async function init() {
-    try {
-      metadata = await fetchMetadata();
-      renderMetadata();
-    } catch (error) {
-      console.warn('Metadata unavailable', error);
-    }
-    await changeScope('sponsored', true);
-  }
-
-  async function apiFetch(path) {
-    const response = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
-      headers: {
-        apikey: SUPABASE_KEY,
-        Accept: 'application/json'
-      },
-      cache: 'no-store'
-    });
-    if (!response.ok) {
-      const detail = await response.text().catch(() => '');
-      throw new Error('Supabase returned HTTP ' + response.status + (detail ? ': ' + detail.slice(0, 180) : ''));
-    }
-    return response.json();
-  }
-
-  async function fetchMetadata() {
-    const data = await apiFetch('ukvi_metadata?select=source_file,imported_at&dataset_key=eq.current&limit=1');
-    return data[0] || null;
-  }
-
-  async function fetchScope(nextScope) {
-    if (cache.has(nextScope)) return cache.get(nextScope);
-    const all = [];
-    let offset = 0;
-    while (true) {
-      const path = 'ukvi_dashboard_rows?select=year,quarter,nationality,applications,issued,refused,decisions&scope=eq.' + encodeURIComponent(nextScope) + '&order=year.asc,quarter.asc,nationality.asc&limit=' + PAGE_SIZE + '&offset=' + offset;
-      const chunk = await apiFetch(path);
-      all.push(...chunk.map(row => ({
-        year: Number(row.year),
-        quarter: String(row.quarter || ''),
-        nationality: String(row.nationality || ''),
-        applications: Number(row.applications) || 0,
-        issued: Number(row.issued) || 0,
-        refused: Number(row.refused) || 0,
-        decisions: Number(row.decisions) || 0
-      })));
-      if (chunk.length < PAGE_SIZE) break;
-      offset += PAGE_SIZE;
-      if (offset > 20000) throw new Error('Data pagination exceeded the expected size.');
-    }
-    if (!all.length) throw new Error('Supabase returned no rows for ' + nextScope + '.');
-    cache.set(nextScope, all);
-    return all;
-  }
-
-  async function changeScope(nextScope, force = false) {
-    if (!force && nextScope === scope && rows.length) return;
-    scope = nextScope;
-    document.querySelectorAll('.scope-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.scope === scope));
-    $('subtitle').textContent = SCOPE_TEXT[scope];
-    setLoading('Loading ' + (scope === 'sponsored' ? 'sponsored study' : 'overall study visa') + ' data...');
-    try {
-      rows = await fetchScope(scope);
-      populateFilters();
-      hideNotice();
-      applyFilters();
-    } catch (error) {
-      showNotice(error.message || String(error));
-      $('summaryLine').textContent = 'Unable to load dashboard data.';
-      $('filterState').textContent = 'Data connection failed';
-      $('kpis').innerHTML = '';
-    }
-  }
-
-  function populateFilters() {
-    const years = [...new Set(rows.map(r => r.year))].sort((a,b) => a-b);
-    fillSelect($('yearFrom'), years, years[0]);
-    fillSelect($('yearTo'), years, years[years.length - 1]);
-    const countries = [...new Set(rows.map(r => r.nationality).filter(Boolean))].sort((a,b) => a.localeCompare(b));
-    setCountryOptions($('country'), countries, true);
-    setCountryOptions($('compareA'), countries, false);
-    setCountryOptions($('compareB'), countries, false);
-    $('compareA').value = countries.includes('India') ? 'India' : countries[0] || '';
-    $('compareB').value = countries.includes('Pakistan') ? 'Pakistan' : countries[1] || countries[0] || '';
-  }
-
-  function fillSelect(select, values, selected) {
-    select.innerHTML = '';
-    values.forEach(value => {
-      const option = document.createElement('option');
-      option.value = String(value);
-      option.textContent = String(value);
-      select.appendChild(option);
-    });
-    select.value = String(selected);
-  }
-
-  function setCountryOptions(select, countries, includeAll) {
-    select.innerHTML = '';
-    if (includeAll) {
-      const all = document.createElement('option');
-      all.value = 'All';
-      all.textContent = 'All countries';
-      select.appendChild(all);
-    }
-    countries.forEach(country => {
-      const option = document.createElement('option');
-      option.value = country;
-      option.textContent = country;
-      select.appendChild(option);
-    });
-  }
-
-  function resetFilters() {
-    if (!rows.length) return;
-    const years = [...new Set(rows.map(r => r.year))].sort((a,b) => a-b);
-    $('yearFrom').value = years[0];
-    $('yearTo').value = years[years.length - 1];
-    $('quarter').value = 'All';
-    $('country').value = 'All';
-    $('countrySearch').value = '';
-    applyFilters();
-  }
-
-  function applyFilters() {
-    if (!rows.length) return;
-    const yearFrom = Number($('yearFrom').value);
-    const yearTo = Number($('yearTo').value);
-    const quarter = $('quarter').value;
-    const country = $('country').value;
-    if (yearFrom > yearTo) {
-      showNotice('Year from cannot be later than Year to.');
-      return;
-    }
-    hideNotice();
-    filtered = rows.filter(r => r.year >= yearFrom && r.year <= yearTo && (quarter === 'All' || r.quarter === quarter) && (country === 'All' || r.nationality === country));
-    $('filterState').textContent = 'Showing: ' + (scope === 'sponsored' ? 'Sponsored Study Only' : 'Overall Study Visa') + ' · ' + yearFrom + ' to ' + yearTo + ' · ' + (quarter === 'All' ? 'All quarters' : quarter) + ' · ' + (country === 'All' ? 'All countries' : country);
-    renderDashboard();
-  }
-
-  function aggregate(items) {
-    return items.reduce((acc, row) => {
-      acc.applications += row.applications;
-      acc.issued += row.issued;
-      acc.refused += row.refused;
-      acc.decisions += row.decisions;
-      return acc;
-    }, { applications:0, issued:0, refused:0, decisions:0 });
-  }
-
-  function metrics(items) {
-    const totals = aggregate(items);
-    totals.grantRate = totals.decisions ? totals.issued / totals.decisions : 0;
-    totals.refusalRate = totals.decisions ? totals.refused / totals.decisions : 0;
-    return totals;
-  }
-
-  function renderDashboard() {
-    const total = metrics(filtered);
-    $('summaryLine').textContent = (scope === 'sponsored' ? 'Sponsored Study Only' : 'Overall Study Visa') + ': ' + fmt(total.applications) + ' applications, ' + fmt(total.decisions) + ' decisions, ' + pct(total.grantRate) + ' grant rate and ' + pct(total.refusalRate) + ' refusal rate.';
-    $('kpis').innerHTML = [
-      ['Applications', fmt(total.applications), 'Application volume', 'info'],
-      ['Decisions', fmt(total.decisions), 'Issued + refused', 'info'],
-      ['Issued / Granted', fmt(total.issued), 'Successful outcomes', 'good'],
-      ['Refused', fmt(total.refused), 'Refused outcomes', 'risk'],
-      ['Grant Rate', pct(total.grantRate), 'Issued ÷ decisions', 'good'],
-      ['Refusal Rate', pct(total.refusalRate), 'Refused ÷ decisions', 'risk']
-    ].map(item => '<div class="kpi ' + item[3] + '"><div class="label">' + item[0] + '</div><div class="value">' + item[1] + '</div><div class="sub">' + item[2] + '</div></div>').join('');
-
-    const annual = [...new Set(filtered.map(r => r.year))].sort((a,b) => a-b).map(year => ({ year, ...metrics(filtered.filter(r => r.year === year)) }));
-    renderVolumeChart(annual);
-    renderRefusalChart(annual);
-    buildCountryRows();
-    renderOverviewTables();
-    renderCountryTable();
-    renderCompare();
-    renderMetadata();
-  }
-
-  function buildCountryRows() {
-    const map = new Map();
-    filtered.forEach(row => {
-      const current = map.get(row.nationality) || { nationality: row.nationality, applications:0, issued:0, refused:0, decisions:0 };
-      current.applications += row.applications;
-      current.issued += row.issued;
-      current.refused += row.refused;
-      current.decisions += row.decisions;
-      map.set(row.nationality, current);
-    });
-    countryRows = [...map.values()].map(row => ({
-      ...row,
-      grantRate: row.decisions ? row.issued / row.decisions : 0,
-      refusalRate: row.decisions ? row.refused / row.decisions : 0
-    })).sort((a,b) => b.applications - a.applications);
-  }
-
-  function renderOverviewTables() {
-    $('topAppsBody').innerHTML = countryRows.slice(0,10).map(row => '<tr><td>' + escapeHtml(row.nationality) + '</td><td>' + fmt(row.applications) + '</td><td>' + fmt(row.decisions) + '</td></tr>').join('');
-    const risky = countryRows.filter(row => row.decisions >= 30).sort((a,b) => b.refusalRate - a.refusalRate).slice(0,10);
-    $('topRiskBody').innerHTML = risky.map(row => '<tr><td>' + escapeHtml(row.nationality) + '</td><td class="risk-text">' + pct(row.refusalRate) + '</td><td>' + fmt(row.refused) + '</td></tr>').join('');
-  }
-
-  function renderCountryTable() {
-    const query = $('countrySearch').value.trim().toLowerCase();
-    const visible = countryRows.filter(row => !query || row.nationality.toLowerCase().includes(query));
-    $('countryCount').textContent = fmt(visible.length) + ' nationalities';
-    $('countryBody').innerHTML = visible.map(row => '<tr><td>' + escapeHtml(row.nationality) + '</td><td>' + fmt(row.applications) + '</td><td>' + fmt(row.decisions) + '</td><td>' + fmt(row.issued) + '</td><td>' + fmt(row.refused) + '</td><td class="good-text">' + pct(row.grantRate) + '</td><td class="risk-text">' + pct(row.refusalRate) + '</td></tr>').join('');
-  }
-
-  function renderCompare() {
-    if (!countryRows.length) return;
-    const a = countryRows.find(row => row.nationality === $('compareA').value);
-    const b = countryRows.find(row => row.nationality === $('compareB').value);
-    const metric = $('compareMetric').value;
-    const rateMetric = metric === 'grantRate' || metric === 'refusalRate';
-    const selected = [a,b].filter(Boolean);
-    const max = Math.max(...selected.map(row => Number(row[metric]) || 0), 1);
-    $('compareBars').innerHTML = selected.map((row, index) => {
-      const value = Number(row[metric]) || 0;
-      const width = Math.max(2, (value / max) * 100);
-      const css = metric === 'refusalRate' || metric === 'refused' ? 'red' : metric === 'grantRate' || metric === 'issued' ? 'green' : '';
-      return '<div class="compare-row"><strong>' + escapeHtml(row.nationality) + '</strong><div class="bar-track"><div class="bar-fill ' + css + '" style="width:' + width.toFixed(1) + '%"></div></div><strong>' + (rateMetric ? pct(value) : fmt(value)) + '</strong></div>';
-    }).join('');
-  }
-
-  function renderVolumeChart(annual) {
-    const series = [
-      { key:'applications', color:'#2563eb' },
-      { key:'decisions', color:'#657287' }
-    ];
-    $('volumeChart').innerHTML = lineChartSvg(annual, series, false);
-  }
-
-  function renderRefusalChart(annual) {
-    const points = annual.map(row => ({ ...row, refusalPercent: row.refusalRate * 100 }));
-    $('refusalChart').innerHTML = lineChartSvg(points, [{ key:'refusalPercent', color:'#c8333a' }], true);
-  }
-
-  function lineChartSvg(data, series, percentAxis) {
-    if (!data.length) return '<span class="muted">No data for the selected filters.</span>';
-    const width = 900, height = 300, left = 66, right = 24, top = 24, bottom = 54;
-    const plotW = width - left - right, plotH = height - top - bottom;
-    const values = data.flatMap(row => series.map(s => Number(row[s.key]) || 0));
-    const maxValue = Math.max(...values, 1);
-    const x = index => left + (data.length === 1 ? plotW / 2 : index * plotW / (data.length - 1));
-    const y = value => top + plotH - (value / maxValue) * plotH;
-    const grid = [0,.25,.5,.75,1].map(f => {
-      const yy = top + plotH - f * plotH;
-      const label = percentAxis ? (maxValue * f).toFixed(1) + '%' : shortNumber(maxValue * f);
-      return '<line x1="' + left + '" y1="' + yy + '" x2="' + (width-right) + '" y2="' + yy + '" stroke="#e7edf4" stroke-width="1"/><text x="' + (left-10) + '" y="' + (yy+4) + '" text-anchor="end" font-size="11" fill="#7b8799">' + label + '</text>';
-    }).join('');
-    const labels = data.map((row, i) => '<text x="' + x(i) + '" y="' + (height-18) + '" text-anchor="middle" font-size="11" fill="#657287">' + row.year + '</text>').join('');
-    const lines = series.map(s => {
-      const points = data.map((row,i) => x(i).toFixed(1) + ',' + y(Number(row[s.key]) || 0).toFixed(1)).join(' ');
-      const dots = data.map((row,i) => '<circle cx="' + x(i) + '" cy="' + y(Number(row[s.key]) || 0) + '" r="4" fill="' + s.color + '"/>').join('');
-      return '<polyline fill="none" stroke="' + s.color + '" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" points="' + points + '"/>' + dots;
-    }).join('');
-    return '<svg viewBox="0 0 ' + width + ' ' + height + '" role="img" aria-label="Trend chart">' + grid + labels + lines + '</svg>';
-  }
-
-  function shortNumber(value) {
-    const n = Number(value) || 0;
-    if (n >= 1000000) return (n/1000000).toFixed(1) + 'm';
-    if (n >= 1000) return (n/1000).toFixed(n >= 100000 ? 0 : 1) + 'k';
-    return Math.round(n).toString();
-  }
-
-  function renderMetadata() {
-    if (!metadata) return;
-    const imported = metadata.imported_at ? new Date(metadata.imported_at) : null;
-    $('updatedLine').textContent = imported && !Number.isNaN(imported.getTime()) ? 'Data imported ' + imported.toLocaleString('en-GB') : '';
-    $('sourceFileLine').textContent = metadata.source_file || 'UKVI Data 2020-2026 Q2.xlsx';
-  }
-
-  function showView(view) {
-    document.querySelectorAll('.view').forEach(el => el.classList.toggle('active', el.id === view));
-    document.querySelectorAll('.tab').forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
-  }
-
-  function setLoading(message) {
-    $('filterState').textContent = message;
-    $('summaryLine').textContent = message;
-  }
-
-  function showNotice(message) {
-    const notice = $('notice');
-    notice.hidden = false;
-    notice.textContent = message;
-  }
-
-  function hideNotice() {
-    const notice = $('notice');
-    notice.hidden = true;
-    notice.textContent = '';
-  }
-
-  function exportCsv() {
-    const headers = ['Nationality','Applications','Decisions','Issued','Refused','Grant Rate','Refusal Rate'];
-    const data = [headers, ...countryRows.map(row => [row.nationality,row.applications,row.decisions,row.issued,row.refused,pct(row.grantRate),pct(row.refusalRate)])];
-    const csv = data.map(row => row.map(value => '"' + String(value).replace(/"/g,'""') + '"').join(',')).join('\n');
-    const blob = new Blob([csv], { type:'text/csv;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'ukvi-country-summary.csv';
-    link.click();
-    URL.revokeObjectURL(url);
-  }
+'use strict';
+const SUPABASE_URL='https://fmharbqedtutphukhskz.supabase.co',SUPABASE_KEY='sb_publishable_odsJb1OMHArKy6CMLxYBZw_2UNWkSda',PAGE_SIZE=1000;
+const METRICS={applications:'Applications',decisions:'Decisions',issued:'Issued / granted',refused:'Refused',grantRate:'Grant rate',refusalRate:'Refusal rate'};
+let rows=[],filtered=[],countryRows=[],metadata=null;
+const $=id=>document.getElementById(id),fmt=v=>Math.round(Number(v)||0).toLocaleString('en-GB'),pct=v=>((Number(v)||0)*100).toFixed(1)+'%',esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])),uniq=a=>[...new Set(a.filter(v=>v!==''&&v!=null))],qNum=q=>Number(String(q||'').replace('Q',''))||0,years=()=>uniq(rows.map(r=>r.year)).sort((a,b)=>a-b),countries=()=>uniq(rows.map(r=>r.nationality)).sort((a,b)=>a.localeCompare(b)),headers={apikey:SUPABASE_KEY};
+function setNotice(m){const n=$('notice');if(!m){n.hidden=true;n.textContent='';return}n.hidden=false;n.textContent=m}
+function normalise(r){return{year:+r.year,quarter:String(r.quarter||''),nationality:String(r.nationality||''),applications:+r.applications||0,issued:+r.issued||0,refused:+r.refused||0,decisions:+r.decisions||0}}
+async function fetchAllSponsored(){const out=[];let offset=0;while(true){const url=`${SUPABASE_URL}/rest/v1/ukvi_dashboard_rows?select=year,quarter,nationality,applications,issued,refused,decisions&scope=eq.sponsored&order=year.asc,quarter.asc,nationality.asc`;const res=await fetch(url,{headers:{...headers,Range:`${offset}-${offset+PAGE_SIZE-1}`}});if(!res.ok)throw new Error(`Supabase returned HTTP ${res.status}`);const batch=await res.json();out.push(...batch.map(normalise));if(batch.length<PAGE_SIZE)break;offset+=PAGE_SIZE}return out}
+async function fetchMetadata(){try{const res=await fetch(`${SUPABASE_URL}/rest/v1/ukvi_metadata?select=source_file,imported_at,dataset_key&dataset_key=eq.current&limit=1`,{headers});if(!res.ok)return null;const d=await res.json();return d[0]||null}catch{return null}}
+function metricOptions(){return Object.entries(METRICS).map(([v,l])=>`<option value="${v}"${v==='refusalRate'?' selected':''}>${l}</option>`).join('')}
+function aggregate(src){const a=src.reduce((s,r)=>{s.applications+=r.applications;s.issued+=r.issued;s.refused+=r.refused;s.decisions+=r.decisions;return s},{applications:0,issued:0,refused:0,decisions:0});a.grantRate=a.decisions?a.issued/a.decisions:0;a.refusalRate=a.decisions?a.refused/a.decisions:0;return a}
+function metricValue(m,k){return k==='grantRate'?m.grantRate:k==='refusalRate'?m.refusalRate:m[k]||0}function formatMetric(k,v){return k.endsWith('Rate')?pct(v):fmt(v)}
+function deltaText(k,c,b){if(k.endsWith('Rate')){const d=(c-b)*100;return `${d>0?'+':''}${d.toFixed(1)} pp vs first`}if(!b)return 'No comparable base';const d=(c-b)/b*100;return `${d>0?'+':''}${d.toFixed(1)}% vs first`}
+function previousDeltaText(k,c,p){if(p==null)return 'First available year';if(k.endsWith('Rate')){const d=(c-p)*100;return `${d>0?'+':''}${d.toFixed(1)} pp YoY`}if(!p)return 'No comparable prior base';const d=(c-p)/p*100;return `${d>0?'+':''}${d.toFixed(1)}% YoY`}
+function rateClass(k,d){if(!k.endsWith('Rate'))return '';if(k==='refusalRate')return d>0?'risk-text':d<0?'good-text':'';return d>0?'good-text':d<0?'risk-text':''}
+function quartersForYear(y){return uniq(rows.filter(r=>r.year===+y).map(r=>r.quarter)).sort((a,b)=>qNum(a)-qNum(b))}function quartersForRange(f,t){return uniq(rows.filter(r=>r.year>=+f&&r.year<=+t).map(r=>r.quarter)).sort((a,b)=>qNum(a)-qNum(b))}
+function fillSelect(el,vals,sel,all){if(!el)return;el.innerHTML=(all!=null?`<option value="All">${all}</option>`:'')+vals.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if(sel!=null&&[...el.options].some(o=>o.value===String(sel)))el.value=String(sel)}
+function updateGlobalQuarterOptions(){const e=$('quarter'),cur=e.value||'All';fillSelect(e,quartersForRange($('yearFrom').value,$('yearTo').value),cur,'All quarters');if(![...e.options].some(o=>o.value===cur))e.value='All'}
+function updateCountriesQuarter(){const e=$('countriesQuarter'),cur=e.value||'All';fillSelect(e,quartersForYear($('countriesYear').value),cur,'All quarters');if(![...e.options].some(o=>o.value===cur))e.value='All'}
+function buildCountryPickers(){const cs=countries(),defs=['India','Pakistan','','',''];$('countryPickers').innerHTML=defs.map((d,i)=>`<label><span>Country ${i+1}${i>1?' (optional)':''}</span><select class="control" id="compareCountry${i+1}"><option value="">${i>1?'Not selected':'Select country'}</option>${cs.map(c=>`<option value="${esc(c)}"${c===d?' selected':''}>${esc(c)}</option>`).join('')}</select></label>`).join('')}
+function buildPeriodRows(){const ys=years(),latest=ys.at(-1),prev=latest-1;$('periodRows').innerHTML=[0,1,2,3,4].map((_,i)=>{const y=i===0?latest:i===1?prev:'';return `<div class="period-row"><div class="period-number">${i+1}</div><label><span>Year${i>1?' (optional)':''}</span><select class="control period-year" data-index="${i}"><option value="">${i>1?'Not selected':'Select year'}</option>${ys.map(v=>`<option value="${v}"${v===y?' selected':''}>${v}</option>`).join('')}</select></label><label><span>Quarter</span><select class="control period-quarter" data-index="${i}"></select></label></div>`}).join('');document.querySelectorAll('.period-year').forEach(e=>{e.addEventListener('change',()=>updatePeriodQuarter(+e.dataset.index));updatePeriodQuarter(+e.dataset.index)})}
+function updatePeriodQuarter(i){const y=document.querySelector(`.period-year[data-index="${i}"]`),q=document.querySelector(`.period-quarter[data-index="${i}"]`);if(!y||!q)return;if(!y.value){q.innerHTML='<option value="All">All quarters</option>';q.disabled=true;return}q.disabled=false;const cur=q.value||'All';fillSelect(q,quartersForYear(y.value),cur,'All quarters');if(![...q.options].some(o=>o.value===cur))q.value='All'}
+function populateBaseControls(){const ys=years(),cs=countries();fillSelect($('yearFrom'),ys,ys[0]);fillSelect($('yearTo'),ys,ys.at(-1));fillSelect($('country'),cs,'All','All countries');updateGlobalQuarterOptions();document.querySelectorAll('.metric-select').forEach(e=>e.innerHTML=metricOptions());fillSelect($('countriesYear'),ys,ys.at(-1));fillSelect($('periodCountry'),cs,cs.includes('India')?'India':cs[0]);fillSelect($('yoyCountry'),cs,cs.includes('India')?'India':cs[0]);fillSelect($('yoyQuarter'),['Q1','Q2','Q3','Q4'],'Q1','All quarters');updateCountriesQuarter();buildCountryPickers();buildPeriodRows()}
+function groupCountries(src){const m=new Map();src.forEach(r=>{if(!m.has(r.nationality))m.set(r.nationality,[]);m.get(r.nationality).push(r)});return[...m].map(([nationality,rs])=>({nationality,...aggregate(rs)})).sort((a,b)=>b.applications-a.applications)}
+function applyFilters(){const yf=+$('yearFrom').value,yt=+$('yearTo').value,q=$('quarter').value,c=$('country').value;filtered=rows.filter(r=>r.year>=yf&&r.year<=yt&&(q==='All'||r.quarter===q)&&(c==='All'||r.nationality===c));countryRows=groupCountries(filtered);$('filterState').textContent=`Showing: Sponsored Study Visa · ${yf} to ${yt} · ${q==='All'?'All quarters':q} · ${c==='All'?'All countries':c}`;renderOverview();renderCountryTable()}
+function annualRows(){const m=new Map();filtered.forEach(r=>{if(!m.has(r.year))m.set(r.year,[]);m.get(r.year).push(r)});return[...m].sort((a,b)=>a[0]-b[0]).map(([year,rs])=>({year,...aggregate(rs)}))}
+function renderOverview(){const t=aggregate(filtered);$('summaryLine').textContent=`${fmt(t.applications)} applications, ${fmt(t.decisions)} decisions, ${pct(t.grantRate)} grant rate and ${pct(t.refusalRate)} refusal rate.`;$('kpis').innerHTML=[['Applications',fmt(t.applications),'Selected volume','info'],['Decisions',fmt(t.decisions),'Issued + refused',''],['Issued / granted',fmt(t.issued),'Successful outcomes','good'],['Refused',fmt(t.refused),'Refused outcomes','risk'],['Grant rate',pct(t.grantRate),'Issued ÷ decisions','good'],['Refusal rate',pct(t.refusalRate),'Refused ÷ decisions','risk']].map(x=>`<div class="kpi ${x[3]}"><div class="label">${x[0]}</div><div class="value">${x[1]}</div><div class="sub">${x[2]}</div></div>`).join('');const a=annualRows();$('volumeChart').innerHTML=twoSeriesSvg(a);$('refusalChart').innerHTML=lineSvg(a);$('topAppsBody').innerHTML=countryRows.slice(0,10).map(r=>`<tr><td>${esc(r.nationality)}</td><td>${fmt(r.applications)}</td><td>${fmt(r.decisions)}</td></tr>`).join('');$('topRiskBody').innerHTML=countryRows.filter(r=>r.decisions>=30).sort((a,b)=>b.refusalRate-a.refusalRate).slice(0,10).map(r=>`<tr><td>${esc(r.nationality)}</td><td class="risk-text">${pct(r.refusalRate)}</td><td>${fmt(r.refused)}</td></tr>`).join('')}
+function twoSeriesSvg(d){if(!d.length)return'<span class="muted">No data for the selected filters.</span>';const w=760,h=280,p=42,max=Math.max(1,...d.flatMap(x=>[x.applications,x.decisions])),step=(w-p*2)/Math.max(1,d.length-1),y=v=>h-p-(v/max)*(h-p*2),pts=k=>d.map((x,i)=>`${p+i*step},${y(x[k])}`).join(' '),labels=d.map((x,i)=>`<text x="${p+i*step}" y="${h-12}" text-anchor="middle" font-size="11" fill="#657287">${x.year}</text>`).join('');return`<svg viewBox="0 0 ${w} ${h}"><line x1="${p}" y1="${h-p}" x2="${w-p}" y2="${h-p}" stroke="#dfe6ef"/><polyline points="${pts('applications')}" fill="none" stroke="#2563eb" stroke-width="3"/><polyline points="${pts('decisions')}" fill="none" stroke="#657287" stroke-width="3"/>${labels}</svg>`}
+function lineSvg(d){if(!d.length)return'<span class="muted">No data for the selected filters.</span>';const w=520,h=280,p=42,max=Math.max(.01,...d.map(x=>x.refusalRate)),step=(w-p*2)/Math.max(1,d.length-1),y=v=>h-p-(v/max)*(h-p*2),pts=d.map((x,i)=>`${p+i*step},${y(x.refusalRate)}`).join(' '),labels=d.map((x,i)=>`<text x="${p+i*step}" y="${h-12}" text-anchor="middle" font-size="11" fill="#657287">${x.year}</text>`).join(''),dots=d.map((x,i)=>`<circle cx="${p+i*step}" cy="${y(x.refusalRate)}" r="4" fill="#c8333a"><title>${x.year}: ${pct(x.refusalRate)}</title></circle>`).join('');return`<svg viewBox="0 0 ${w} ${h}"><line x1="${p}" y1="${h-p}" x2="${w-p}" y2="${h-p}" stroke="#dfe6ef"/><polyline points="${pts}" fill="none" stroke="#c8333a" stroke-width="3"/>${dots}${labels}</svg>`}
+function renderCountryTable(){const q=($('countrySearch').value||'').trim().toLowerCase(),list=countryRows.filter(r=>r.nationality.toLowerCase().includes(q));$('countryCount').textContent=`${list.length} nationalities`;$('countryBody').innerHTML=list.map(r=>`<tr><td>${esc(r.nationality)}</td><td>${fmt(r.applications)}</td><td>${fmt(r.decisions)}</td><td>${fmt(r.issued)}</td><td>${fmt(r.refused)}</td><td class="good-text">${pct(r.grantRate)}</td><td class="risk-text">${pct(r.refusalRate)}</td></tr>`).join('')}
+function exportCsv(){const h=['Nationality','Applications','Decisions','Issued','Refused','Grant Rate','Refusal Rate'],b=countryRows.map(r=>[r.nationality,r.applications,r.decisions,r.issued,r.refused,(r.grantRate*100).toFixed(2),(r.refusalRate*100).toFixed(2)]),csv=[h,...b].map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n'),blob=new Blob([csv],{type:'text/csv'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='ukvi-sponsored-study-country-summary.csv';a.click();URL.revokeObjectURL(url)}
+function subset(c,y,q){return rows.filter(r=>(!c||r.nationality===c)&&(!y||r.year===+y)&&(q==='All'||!q||r.quarter===q))}
+function renderCompareResults(cid,nid,items,k,mode='first'){const el=$(cid),note=$(nid);if(!items.length){el.innerHTML='<span class="muted">Select valid comparison values.</span>';note.textContent='';return}const vals=items.map(i=>metricValue(i.metrics,k)),max=Math.max(.000001,...vals),base=vals[0];el.innerHTML=items.map((it,i)=>{const v=vals[i],ref=mode==='previous'?(i?vals[i-1]:null):base,delta=i&&ref!=null?v-ref:0,txt=mode==='previous'?previousDeltaText(k,v,i?vals[i-1]:null):i?deltaText(k,v,base):'Comparison base',cls=rateClass(k,delta),small=k.endsWith('Rate')&&it.metrics.decisions<30;return`<div class="compare-result"><div><div class="compare-name">${esc(it.label)}</div><div class="compare-meta">${fmt(it.metrics.decisions)} decisions${small?'<span class="sample-warning">Small sample</span>':''}</div></div><div class="bar-track"><div class="bar-fill ${k==='refusalRate'?'red':k==='grantRate'?'green':''}" style="width:${Math.max(2,v/max*100)}%"></div></div><div class="compare-value">${formatMetric(k,v)}<span class="delta ${cls}">${txt}</span></div></div>`}).join('');note.textContent=k.endsWith('Rate')?'Rate comparisons show the decision base; fewer than 30 decisions are flagged as a small sample.':mode==='previous'?'Differences show year-on-year change from the previous available year.':'Differences are calculated against the first selected comparison.'}
+function compareCountries(){const y=$('countriesYear').value,q=$('countriesQuarter').value,k=$('countriesMetric').value,n=uniq([1,2,3,4,5].map(i=>$(`compareCountry${i}`).value).filter(Boolean)),items=n.map(c=>({label:`${c} · ${y}${q==='All'?'':` · ${q}`}`,metrics:aggregate(subset(c,y,q))}));renderCompareResults('countriesResults','countriesNote',items,k)}
+function comparePeriods(){const c=$('periodCountry').value,k=$('periodMetric').value,items=[];document.querySelectorAll('.period-year').forEach((y,i)=>{if(!y.value)return;const q=document.querySelector(`.period-quarter[data-index="${i}"]`).value;items.push({label:`${c} · ${y.value}${q==='All'?' · All quarters':` · ${q}`}`,metrics:aggregate(subset(c,y.value,q))})});renderCompareResults('periodResults','periodNote',items,k)}
+function compareYoy(){const c=$('yoyCountry').value,q=$('yoyQuarter').value,k=$('yoyMetric').value,items=years().filter(y=>q==='All'||quartersForYear(y).includes(q)).map(y=>({label:`${c} · ${y}${q==='All'?' · All quarters':` · ${q}`}`,metrics:aggregate(subset(c,y,q))})).filter(x=>x.metrics.applications||x.metrics.decisions);renderCompareResults('yoyResults','yoyNote',items,k,'previous')}
+function switchCompareMode(m){document.querySelectorAll('.compare-tab').forEach(b=>b.classList.toggle('active',b.dataset.mode===m));document.querySelectorAll('.compare-panel').forEach(p=>p.classList.remove('active'));$(`compare${m[0].toUpperCase()+m.slice(1)}Panel`).classList.add('active');if(m==='countries')compareCountries();if(m==='periods')comparePeriods();if(m==='yoy')compareYoy()}
+function bind(){document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===b.dataset.view))}));document.querySelectorAll('.compare-tab').forEach(b=>b.addEventListener('click',()=>switchCompareMode(b.dataset.mode)));$('applyBtn').addEventListener('click',applyFilters);$('resetBtn').addEventListener('click',()=>{const ys=years();$('yearFrom').value=ys[0];$('yearTo').value=ys.at(-1);$('country').value='All';updateGlobalQuarterOptions();$('quarter').value='All';$('countrySearch').value='';applyFilters()});$('yearFrom').addEventListener('change',()=>{if(+$('yearFrom').value>+$('yearTo').value)$('yearTo').value=$('yearFrom').value;updateGlobalQuarterOptions()});$('yearTo').addEventListener('change',()=>{if(+$('yearTo').value<+$('yearFrom').value)$('yearFrom').value=$('yearTo').value;updateGlobalQuarterOptions()});$('countrySearch').addEventListener('input',renderCountryTable);$('exportBtn').addEventListener('click',exportCsv);$('countriesYear').addEventListener('change',updateCountriesQuarter);$('countriesCompareBtn').addEventListener('click',compareCountries);$('periodCompareBtn').addEventListener('click',comparePeriods);$('yoyCompareBtn').addEventListener('click',compareYoy)}
+async function init(){try{setNotice('');[rows,metadata]=await Promise.all([fetchAllSponsored(),fetchMetadata()]);if(!rows.length)throw new Error('Supabase returned no Sponsored Study rows.');populateBaseControls();bind();applyFilters();compareCountries();if(metadata){$('updatedLine').textContent=`Data imported ${new Date(metadata.imported_at).toLocaleDateString('en-GB')}`;$('sourceFileLine').textContent=metadata.source_file||'Current UKVI source workbook'}else $('sourceFileLine').textContent='Current UKVI source workbook'}catch(e){setNotice(`Data connection failed: ${e.message||e}`);$('summaryLine').textContent='Unable to load Sponsored Study data.';$('filterState').textContent='Supabase connection failed.'}}
+init();
 })();
 </script>
 </body>
